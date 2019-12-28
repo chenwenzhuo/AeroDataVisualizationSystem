@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>气动数据可视化系统</title>
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{~/img_display/bower_components/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link th:href="@{~/img_display/bower_components/metisMenu/dist/metisMenu.min.css}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link th:href="@{~/img_display/css/style.css}" rel="stylesheet">
+
+    <style type="text/css">
+        .imgDisplayDiv {
+            width: 800px;
+            height: 800px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            margin-top: 25px;
+        }
+
+        #links {
+            text-align: center;
+        }
+
+        #links ul {
+            border: 1px solid red;
+            list-style-type: none;
+        }
+
+        #links ul li {
+            display: inline;
+        }
+    </style>
+
+</head>
+
+<body>
+<!-- Preloader -->
+<div class="preloader">
+    <div class="cssload-speeding-wheel"></div>
+</div>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+        <div class="navbar-header"><a class="navbar-toggle hidden-sm hidden-md hidden-lg "
+                                      href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i
+                class="ti-menu"></i></a>
+            <div class="top-left-part">
+                <a class="logo" href="#">
+                    <i></i>&nbsp;<span class="hidden-xs" style="font-size: 20px;">气动数据可视化系统</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="navbar-default sidebar nicescroll" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+
+            <div class="center p-20">
+                    <span class="hide-menu">
+                        <a href="/aero/startpage"
+                           class="btn btn-info btn-block btn-rounded waves-effect waves-light">重新选择数据</a>
+                    </span>
+            </div>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- Page Content -->
+<div id="page-wrapper">
+    <div class="imgDisplayDiv">
+        <img th:src="@{http://localhost:8080/aero/displayrelationplot}" alt="relation_plot"
+             style="width: 80%;height: 80%;" src="#"/>
+    </div>
+</div>
+<!-- /#page-wrapper -->
+
+<!-- /#wrapper -->
+<!-- jQuery -->
+<script th:src="@{~/img_display/bower_components/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script th:src="@{~/img_display/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- Menu Plugin JavaScript -->
+<script th:src="@{~/img_display/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
+<!--Nice scroll JavaScript -->
+<script th:src="@{~/img_display/js/jquery.nicescroll.js}"></script>
+<!--Wave Effects -->
+<script th:src="@{~/img_display/js/waves.js}"></script>
+<!-- Custom Theme JavaScript -->
+<script th:src="@{~/img_display/js/myadmin.js}"></script>
+</body>
+
+</html>
