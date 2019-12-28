@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 
 @Controller
-@RequestMapping(path = "aero")
+@RequestMapping(path = "/aero")
 public class PagesController {
     private String path;
 
@@ -95,6 +95,9 @@ public class PagesController {
             String[] pyArgs = new String[]{"python", "src/main/python/relation_plot.py",
                     uploadPath, fileName, String.valueOf(col1), String.valueOf(col2)};
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
+            int exitVal = proc.waitFor(); // 阻塞当前线程，并等待外部程序中止后获取结果码
+            System.out.println(exitVal == 0 ? "成功" : "失败");
+            System.out.println("exitVal is : " + exitVal);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line = null;
@@ -117,7 +120,8 @@ public class PagesController {
     public byte[] displayRelationPlot() throws IOException {
         /*ClassPathResource resource = new ClassPathResource("D:\\relation_plot.png");
         InputStream inputStream = resource.getInputStream();*/
-        File imgFile = new File(path + "relation_plot.png");
+        //File imgFile = new File(path + "relation_plot.png");
+        File imgFile = new File("D:\\relation_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());

@@ -17,9 +17,10 @@ def relation_plot(df, path, c1, c2):
     col_2 = df[df.columns[c2]]
     _ = plt.plot(col_1, col_2)
     # save_path = "./src/main/resources/static/images/relation_plot"
-    save_path = path + "relation_plot.png"
-    # save_path = "D:/relation_plot.png"
+    # save_path = path + "relation_plot.png"
+    save_path = "D:/relation_plot.png"
     print("relation_plot path", save_path)
+
     plt.savefig(save_path)
 
 
