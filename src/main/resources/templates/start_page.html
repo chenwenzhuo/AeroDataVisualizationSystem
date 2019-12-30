@@ -26,8 +26,28 @@
         height: 50px;
         width: 360px;
     }
+
+    #pageFooter {
+        color: white;
+    }
+
+    #background {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    #UESTC_Logo {
+        position: absolute;
+        height: 70px;
+        /* width: 100px; */
+        left: 30px;
+        top: 20px;
+    }
 </style>
 <body data-spy="scroll" data-target=".fixed-top">
+<img th:src="@{~/images/StartPageCFDBackground.png}" id="background" alt="CFDBackGround" src="#"/>
+<img th:src="@{~/images/UESTC.png}" id="UESTC_Logo" alt="UESTC" src="#"/>
 
 <!-- Preloader -->
 <div class="spinner-wrapper">
@@ -64,7 +84,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 style="font-size: 50px;">气动数据可视化系统</h1>
+                <h1 style="font-size: 50px;color: #3333CC">气动数据可视化系统</h1>
 
                 <!-- Sign Up Form -->
                 <div class="form-container" style="margin-top: 80px;">
@@ -91,7 +111,10 @@
     </div> <!-- end of container -->
 </header> <!-- end of ex-header -->
 <!-- end of header -->
-
+<div id="pageFooter">
+    <footer class="footer text-center" style="background-color:#3333CC"> 2019 &copy; 电子科技大学气动数据可视化系统 <a
+            href="http://www.cssmoban.com/" target="_blank" title="电子科技大学官网" style="color:white;">电子科技大学</a></footer>
+</div>
 <!-- Scripts -->
 <script th:src="@{~/start_page/js/jquery.min.js}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
 <script th:src="@{~/start_page/js/popper.min.js}"></script> <!-- Popper tooltip library for Bootstrap -->
