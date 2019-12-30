@@ -141,7 +141,10 @@
                         </select>
 
                         <label>
-                            <input type="text" th:value="${filePath}" th:hidden="hidden" name="filePath">
+                            <input type="text" th:value="${uploadPath}" th:hidden="hidden" name="uploadPath">
+                        </label>
+                        <label>
+                            <input type="text" th:value="${fileName}" th:hidden="hidden" name="fileName">
                         </label>
 
                         <div class="center p-20">
@@ -174,7 +177,7 @@
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="imgDisplayDiv">
-        <img th:src="@{~/images/defaultPic.jpg}" alt="default" style="width: 80%;height: 80%;"/>
+        <img th:src="@{~/images/defaultPic.jpg}" alt="default" style="width: 80%;height: 80%;" src="#"/>
     </div>
 </div>
 <!-- /#page-wrapper -->
