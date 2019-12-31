@@ -29,21 +29,6 @@
             margin-top: 25px;
         }
 
-        .dataColumnSelectorCSS {
-            background: #fafdfe;
-            height: 28px;
-            width: 180px;
-            line-height: 28px;
-            border: 1px solid #9bc0dd;
-            -moz-border-radius: 2px;
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-        }
-
-        #links {
-            text-align: center;
-        }
-
         #links ul {
             border: 1px solid red;
             list-style-type: none;
@@ -56,18 +41,14 @@
 
     <script type="text/javascript">
         function confirmCol() {
-            //alert("inside confirmCol()");
-            let colSelector1 = document.getElementById("dataColumnSelector1");
-            let colSelector2 = document.getElementById("dataColumnSelector2");
+            let colInput1 = document.getElementById("dataColumnInput1");
+            let colInput2 = document.getElementById("dataColumnInput2");
 
-            let selectedIndex1 = colSelector1.selectedIndex;
-            let selectedIndex2 = colSelector2.selectedIndex;
+            let col1 = colInput1.value;
+            let col2 = colInput2.value;
 
-            let selectedVal1 = colSelector1.children[selectedIndex1].value;
-            let selectedVal2 = colSelector2.children[selectedIndex2].value;
-
-            if (selectedVal1 === selectedVal2) {
-                alert("两个数据列不能相同！");
+            if (col1 === col2) {
+                alert("请输入不同的数据列！");
                 return false;
             }
             return true;
@@ -105,26 +86,24 @@
                 <li>
                     <form action="/aero/drawrelationplot"
                           style="margin-top: 50px;margin-left: 20px;margin-right: 20px;">
-                        <label style="color: white;font-size: 20px;">选择要使用的数据列</label><br/>
-                        <label for="dataColumnSelector1"></label>
-                        <select id="dataColumnSelector1" name="col1" class="dataColumnSelectorCSS">
-                            <option value="none" selected disabled hidden>请选择选项</option>
-                            <option value="1">列1</option>
-                            <option value="2">列2</option>
-                            <option value="3">列3</option>
-                            <option value="4">列4</option>
-                        </select>
+                        <label style="color: white;font-size: 20px;">输入要使用的数据列</label><br/>
 
+                        <label>
+                            <input id="dataColumnInput1" name="col1" type="text" placeholder="第一列"/>
+                        </label>
                         <br/><br/>
 
-                        <label for="dataColumnSelector2"></label>
-                        <select id="dataColumnSelector2" name="col2" class="dataColumnSelectorCSS">
-                            <option value="none" selected disabled hidden>请选择选项</option>
-                            <option value="1">列1</option>
-                            <option value="2">列2</option>
-                            <option value="3">列3</option>
-                            <option value="4">列4</option>
-                        </select>
+                        <label>
+                            <input id="dataColumnInput2" name="col2" type="text" placeholder="第二列"/>
+                        </label>
+                        <br/><br/>
+
+                        <label style="color: white;font-size: 18px;">输入Python文件路径</label><br/>
+                        <label>
+                            <input id="pythonDirInput" name="pythonDir" type="text" placeholder="relation_plot.py路径"/>
+                        </label>
+                        <br/>
+
                         <label>
                             <input type="text" th:value="${uploadPath}" th:hidden="hidden" name="uploadPath">
                         </label>

@@ -1,6 +1,5 @@
 package com.example.AeroDataVisualizationSystem.controller;
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,17 +89,15 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawrelationplot")
-    public ModelAndView drawRelationPlot(String uploadPath, String fileName, int col1, int col2) {
+    public ModelAndView drawRelationPlot(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
         System.out.println("inside drawRelationPlot");
-        System.out.println("statistic file path: " + uploadPath);
-        System.out.println("statistic file name: " + fileName);
+        /*System.out.println("statistic file path: " + uploadPath);
+        System.out.println("statistic file name: " + fileName);*/
+
         try {
-            String[] pyArgs = new String[]{"python", "D:\\Programs\\AeroDataVisualization\\visualization_1\\relation_plot.py",
-                    uploadPath, fileName, String.valueOf(col1), String.valueOf(col2)};
+            String relationPlotPy = pythonDir + "\\relation_plot.py";
+            String[] pyArgs = new String[]{"python", relationPlotPy, uploadPath, fileName, col1, col2};
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
-            int exitVal = proc.waitFor(); // 阻塞当前线程，并等待外部程序中止后获取结果码
-            System.out.println(exitVal == 0 ? "成功" : "失败");
-            System.out.println("exitVal is : " + exitVal);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line = null;
@@ -124,7 +121,7 @@ public class PagesController {
         /*ClassPathResource resource = new ClassPathResource("D:\\relation_plot.png");
         InputStream inputStream = resource.getInputStream();*/
         //File imgFile = new File(path + "relation_plot.png");
-        File imgFile = new File("D:\\relation_plot.png");
+        File imgFile = new File(path + "\\relation_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
@@ -133,11 +130,11 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawheatmap")
-    public ModelAndView drawHeatMap(String uploadPath, String fileName, int col1, int col2, int col3) {
+    public ModelAndView drawHeatMap(String uploadPath, String fileName, String pythonDir, String col1, String col2, String col3) {
         System.out.println("inside drawHeatMap");
         try {
-            String[] pyArgs = new String[]{"python", "D:\\Programs\\AeroDataVisualization\\visualization_1\\heat_map.py",
-                    uploadPath, fileName, String.valueOf(col1), String.valueOf(col2), String.valueOf(col3)};
+            String heatMapPy = pythonDir + "\\heat_map.py";
+            String[] pyArgs = new String[]{"python", heatMapPy, uploadPath, fileName, col1, col2, col3};
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -159,7 +156,7 @@ public class PagesController {
     public byte[] displayHeatMap() throws IOException {
         /*ClassPathResource resource = new ClassPathResource("static/images/heat_map.png");
         InputStream inputStream = resource.getInputStream();*/
-        File imgFile = new File("D:\\heat_map.png");
+        File imgFile = new File(path + "\\heat_map.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
@@ -168,12 +165,12 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawstreamplot")
-    public ModelAndView drawStreamPlot(String uploadPath, String fileName, int col1, int col2) {
+    public ModelAndView drawStreamPlot(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
         System.out.println("inside drawStreamPlot");
-        System.out.println("uploadPath is : " + uploadPath);
+        /*System.out.println("uploadPath is : " + uploadPath);*/
         try {
-            String[] pyArgs = new String[]{"python", "D:\\Programs\\AeroDataVisualization\\visualization_1\\stream_plot.py",
-                    uploadPath, fileName, String.valueOf(col1), String.valueOf(col2)};
+            String streamPlotPy = pythonDir + "\\stream_plot.py";
+            String[] pyArgs = new String[]{"python", streamPlotPy, uploadPath, fileName, col1, col2};
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -195,7 +192,7 @@ public class PagesController {
     public byte[] displayStreamPlot() throws IOException {
         /*ClassPathResource resource = new ClassPathResource("static/images/stream_plot.png");
         InputStream inputStream = resource.getInputStream();*/
-        File imgFile = new File("D:\\stream_plot.png");
+        File imgFile = new File(path + "\\stream_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
@@ -204,11 +201,11 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawquiverplot")
-    public ModelAndView drawQuiverPlot(String uploadPath, String fileName, int col1, int col2) {
+    public ModelAndView drawQuiverPlot(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
         System.out.println("inside drawQuiverPlot");
         try {
-            String[] pyArgs = new String[]{"python", "D:\\Programs\\AeroDataVisualization\\visualization_1\\quiver_plot.py",
-                    uploadPath, fileName, String.valueOf(col1), String.valueOf(col2)};
+            String quiverPlotPy = pythonDir + "\\quiver_plot.py";
+            String[] pyArgs = new String[]{"python", quiverPlotPy, uploadPath, fileName, col1, col2};
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -230,7 +227,7 @@ public class PagesController {
     public byte[] displayQuiverPlot() throws IOException {
         /*ClassPathResource resource = new ClassPathResource("static/images/quiver_plot.png");
         InputStream inputStream = resource.getInputStream();*/
-        File imgFile = new File("D:\\quiver_plot.png");
+        File imgFile = new File(path + "\\quiver_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
