@@ -39,22 +39,22 @@
 
     #UESTC_Logo {
         position: absolute;
-        height: 70px;
-        /* width: 100px; */
+        /*height: 70px;
+         width: 100px; */
         left: 30px;
         top: 20px;
     }
 
     #backgroundImg {
         opacity: 0.3;
-        filter: alpha(opacity=40); /* 针对 IE8 以及更早的版本 */
+        /*filter: alpha(opacity=40);*/ /* 针对 IE8 以及更早的版本 */
     }
 </style>
 <body data-spy="scroll" data-target=".fixed-top" style="background-color:white">
 <img th:src="@{~/images/StartPageCFDBackground.png}" id="backgroundImg" alt="CFDBackGround" src="#"/>
-<img th:src="@{~/images/UESTC.png}" id="UESTC_Logo" alt="UESTC" src="#"/>
+<img th:src="@{~/images/UESTC_Lab.png}" id="UESTC_Logo" alt="UESTC&LabLogo" src="#"/>
 
-<!-- Preloader -->
+<!-- 页面加载时的动画效果 -->
 <div class="spinner-wrapper">
     <div class="spinner">
         <div class="bounce1"></div>
@@ -62,7 +62,6 @@
         <div class="bounce3"></div>
     </div>
 </div>
-<!-- end of preloader -->
 
 <!-- Header -->
 <header id="header" class="ex-2-header">
@@ -97,8 +96,10 @@
 </header> <!-- end of ex-header -->
 <!-- end of header -->
 <div id="pageFooter">
-    <footer class="footer text-center" style="color: black"> 2019 &copy; 电子科技大学气动数据可视化系统
+    <footer class="footer text-center" style="color: black"> 2019 &copy; 电子科技大学气动数据可视化系统&nbsp;&nbsp;
         <a href="https://www.uestc.edu.cn/" target="_blank" title="电子科技大学官网" style="color:black;">电子科技大学</a>
+        <br/>
+        <span>地址：成都市高新区（西区）西源大道2006号&nbsp;清水河校区主楼b1-304、b1-305&nbsp;&nbsp;&nbsp;&nbsp;邮编：611731</span>
     </footer>
 </div>
 <!-- Scripts -->
