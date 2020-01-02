@@ -76,7 +76,13 @@
                             <option value="heat_map">热力图</option>
                             <option value="stream_plot">流场图</option>
                             <option value="quiver_plot">箭头图</option>
-                        </select>
+                        </select><br/><br/><br/>
+
+                        <label style="color: white;font-size: 18px;">输入Python文件路径</label><br/>
+                        <label>
+                            <input id="pythonDirInput" name="pythonDir" type="text" placeholder="Python作图文件路径"/>
+                        </label><br/>
+
                         <label>
                             <input type="text" th:value="${uploadPath}" th:hidden="hidden" name="uploadPath">
                         </label>

@@ -98,12 +98,9 @@
                         </label>
                         <br/><br/>
 
-                        <label style="color: white;font-size: 18px;">输入Python文件路径</label><br/>
                         <label>
-                            <input id="pythonDirInput" name="pythonDir" type="text" placeholder="quiver_plot.py路径"/>
+                            <input type="text" name="pythonDir" th:value="${pythonDir}" th:hidden="hidden"/>
                         </label>
-                        <br/>
-
                         <label>
                             <input type="text" th:value="${uploadPath}" th:hidden="hidden" name="uploadPath">
                         </label>

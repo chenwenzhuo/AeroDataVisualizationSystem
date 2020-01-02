@@ -18,15 +18,12 @@ public class PagesController {
 
     @RequestMapping(path = "/startpage")
     public ModelAndView gotoStartPage() {
-        System.out.println("inside gotoStartPage");
         return new ModelAndView("start_page");
     }
 
     @RequestMapping(path = "/receivestatisticfile")
-    public ModelAndView receiveStatisticFile(@RequestParam("statisticFile") MultipartFile statisticFile,
-                                             HttpServletRequest request) {
-        System.out.println("inside selectImgType");
-
+    public ModelAndView receiveStatisticFile(
+            @RequestParam("statisticFile") MultipartFile statisticFile, HttpServletRequest request) {
         //上传文件路径
         String uploadPath = request.getServletContext().getRealPath("");
         //文件名
@@ -55,32 +52,32 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/confirmimgtype")
-    public ModelAndView confirmImgType(String imgType, String uploadPath, String fileName) {
-        System.out.println("inside confirmImgType");
-        System.out.println("statistic file path: " + uploadPath);
-        System.out.println("statistic file name: " + fileName);
-
+    public ModelAndView confirmImgType(String imgType, String pythonDir, String uploadPath, String fileName) {
         switch (imgType) {
             case "relation_plot": {
                 ModelAndView modelAndView = new ModelAndView("relation_plot_select_cols");
+                modelAndView.addObject("pythonDir", pythonDir);
                 modelAndView.addObject("uploadPath", uploadPath);
                 modelAndView.addObject("fileName", fileName);
                 return modelAndView;
             }
             case "heat_map": {
                 ModelAndView modelAndView = new ModelAndView("heat_map_select_cols");
+                modelAndView.addObject("pythonDir", pythonDir);
                 modelAndView.addObject("uploadPath", uploadPath);
                 modelAndView.addObject("fileName", fileName);
                 return modelAndView;
             }
             case "stream_plot": {
                 ModelAndView modelAndView = new ModelAndView("stream_plot_select_cols");
+                modelAndView.addObject("pythonDir", pythonDir);
                 modelAndView.addObject("uploadPath", uploadPath);
                 modelAndView.addObject("fileName", fileName);
                 return modelAndView;
             }
             default: {
                 ModelAndView modelAndView = new ModelAndView("quiver_plot_select_cols");
+                modelAndView.addObject("pythonDir", pythonDir);
                 modelAndView.addObject("uploadPath", uploadPath);
                 modelAndView.addObject("fileName", fileName);
                 return modelAndView;
@@ -89,11 +86,8 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawrelationplot")
-    public ModelAndView drawRelationPlot(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
-        System.out.println("inside drawRelationPlot");
-        /*System.out.println("statistic file path: " + uploadPath);
-        System.out.println("statistic file name: " + fileName);*/
-
+    public ModelAndView drawRelationPlot(String uploadPath, String fileName,
+                                         String pythonDir, String col1, String col2) {
         try {
             String relationPlotPy = pythonDir + "\\relation_plot.py";
             String[] pyArgs = new String[]{"python", relationPlotPy, uploadPath, fileName, col1, col2};
@@ -118,9 +112,6 @@ public class PagesController {
     @RequestMapping(path = "/displayrelationplot", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public byte[] displayRelationPlot() throws IOException {
-        /*ClassPathResource resource = new ClassPathResource("D:\\relation_plot.png");
-        InputStream inputStream = resource.getInputStream();*/
-        //File imgFile = new File(path + "relation_plot.png");
         File imgFile = new File(path + "\\relation_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
@@ -130,8 +121,8 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawheatmap")
-    public ModelAndView drawHeatMap(String uploadPath, String fileName, String pythonDir, String col1, String col2, String col3) {
-        System.out.println("inside drawHeatMap");
+    public ModelAndView drawHeatMap(String uploadPath, String fileName,
+                                    String pythonDir, String col1, String col2, String col3) {
         try {
             String heatMapPy = pythonDir + "\\heat_map.py";
             String[] pyArgs = new String[]{"python", heatMapPy, uploadPath, fileName, col1, col2, col3};
@@ -154,8 +145,6 @@ public class PagesController {
     @RequestMapping(path = "/displayheatmap", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public byte[] displayHeatMap() throws IOException {
-        /*ClassPathResource resource = new ClassPathResource("static/images/heat_map.png");
-        InputStream inputStream = resource.getInputStream();*/
         File imgFile = new File(path + "\\heat_map.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
@@ -165,9 +154,8 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawstreamplot")
-    public ModelAndView drawStreamPlot(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
-        System.out.println("inside drawStreamPlot");
-        /*System.out.println("uploadPath is : " + uploadPath);*/
+    public ModelAndView drawStreamPlot(String uploadPath, String fileName,
+                                       String pythonDir, String col1, String col2) {
         try {
             String streamPlotPy = pythonDir + "\\stream_plot.py";
             String[] pyArgs = new String[]{"python", streamPlotPy, uploadPath, fileName, col1, col2};
@@ -190,8 +178,6 @@ public class PagesController {
     @RequestMapping(path = "/displaystreamplot", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public byte[] displayStreamPlot() throws IOException {
-        /*ClassPathResource resource = new ClassPathResource("static/images/stream_plot.png");
-        InputStream inputStream = resource.getInputStream();*/
         File imgFile = new File(path + "\\stream_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
@@ -201,8 +187,8 @@ public class PagesController {
     }
 
     @RequestMapping(path = "/drawquiverplot")
-    public ModelAndView drawQuiverPlot(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
-        System.out.println("inside drawQuiverPlot");
+    public ModelAndView drawQuiverPlot(String uploadPath, String fileName,
+                                       String pythonDir, String col1, String col2) {
         try {
             String quiverPlotPy = pythonDir + "\\quiver_plot.py";
             String[] pyArgs = new String[]{"python", quiverPlotPy, uploadPath, fileName, col1, col2};
@@ -225,8 +211,6 @@ public class PagesController {
     @RequestMapping(path = "/displayquiverplot", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public byte[] displayQuiverPlot() throws IOException {
-        /*ClassPathResource resource = new ClassPathResource("static/images/quiver_plot.png");
-        InputStream inputStream = resource.getInputStream();*/
         File imgFile = new File(path + "\\quiver_plot.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
