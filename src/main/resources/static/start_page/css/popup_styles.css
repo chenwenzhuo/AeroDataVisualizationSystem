@@ -10,8 +10,8 @@
     filter: alpha(opacity=50);
     background-color: black;
     z-index: 99998;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
 }
 
 .window-panel {
@@ -105,18 +105,18 @@
     width: 60px;
     height: 26px;
     line-height: 26px;
-    background-color: #DE5923;
+    background-color: #5f4dee;
     color: white;
     cursor: pointer;
     text-align: center;
     border-radius: 2px;
     text-decoration: none;
-    margin: 0 10px 0px 10px;
+    margin: 0 10px 0 10px;
     border: none;
 }
 
 .window-panel .w-btn:hover {
-    background-color: #DA3E00;
+    background-color: #5f4dee;
 }
 
 .window-panel .w-btn:focus {
