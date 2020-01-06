@@ -8,13 +8,12 @@
     <title>气动数据可视化系统</title>
 
     <!-- Styles -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext"
-          rel="stylesheet">
     <link th:href="@{~/start_page/css/bootstrap.css}" rel="stylesheet" type="text/css">
     <link th:href="@{~/start_page/css/fontawesome-all.css}" rel="stylesheet" type="text/css">
     <link th:href="@{~/start_page/css/swiper.css}" rel="stylesheet" type="text/css">
     <link th:href="@{~/start_page/css/magnific-popup.css}" rel="stylesheet" type="text/css">
     <link th:href="@{~/start_page/css/styles.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{~/start_page/css/popup_styles.css}" rel="stylesheet" type="text/css">
 </head>
 <style>
     .choose_file_btn {
@@ -27,9 +26,22 @@
         width: 360px;
     }
 
-    #pageFooter {
-        color: white;
+    .aboutUsBtn{
+        margin-right: 100px;
+        font-family: "Microsoft YaHei UI",serif;
+        font-size: 15px;
+        color: black;
     }
+
+    .alert {
+        cursor: pointer;
+        float: right;
+        margin-top: 50px;
+    }
+
+    /*#pageFooter {
+        color: white;
+    }*/
 
     #backgroundImg {
         position: absolute;
@@ -52,7 +64,12 @@
 </style>
 <body data-spy="scroll" data-target=".fixed-top" style="background-color:white">
 <img th:src="@{~/images/StartPageCFDBackground.png}" id="backgroundImg" alt="CFDBackGround" src="#"/>
-<img th:src="@{~/images/UESTC_Lab.png}" id="UESTC_Logo" alt="UESTC&LabLogo" src="#"/>
+<div style="float: left">
+    <img th:src="@{~/images/UESTC_Lab.png}" id="UESTC_Logo" alt="UESTC&LabLogo" src="#"/>
+</div>
+<div class="alert" onclick="popup.alert('2019 &copy; 气动数据可视化系统&nbsp;v1.0','地址：成都市高新区（西区）西源大道2006号&nbsp;清水河校区主楼b1-304、b1-305<br/>邮编：611731');">
+    <span class="aboutUsBtn">关于我们</span>
+</div>
 
 <!-- 页面加载时的动画效果 -->
 <div class="spinner-wrapper">
@@ -94,23 +111,25 @@
     </div> <!-- end of container -->
 </header> <!-- end of ex-header -->
 <!-- end of header -->
-<div id="pageFooter">
-    <footer class="footer text-center" style="color: black"> 2019 &copy; 气动数据可视化系统&nbsp;v1.0&nbsp;&nbsp;&nbsp;
+<!--<div id="pageFooter">
+    <footer class="footer text-center" style="color: black">2019 &copy; 气动数据可视化系统&nbsp;v1.0&nbsp;&nbsp;&nbsp;
         <a href="https://www.uestc.edu.cn/" target="_blank" title="电子科技大学官网" style="color:black;">电子科技大学</a>
         <br/>
         <span>地址：成都市高新区（西区）西源大道2006号&nbsp;清水河校区主楼b1-304、b1-305&nbsp;&nbsp;&nbsp;&nbsp;邮编：611731</span>
     </footer>
-</div>
-<!-- Scripts -->
-<script th:src="@{~/start_page/js/jquery.min.js}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
-<script th:src="@{~/start_page/js/popper.min.js}"></script> <!-- Popper tooltip library for Bootstrap -->
-<script th:src="@{~/start_page/js/bootstrap.min.js}"></script> <!-- Bootstrap framework -->
+</div>-->
+
+<script th:src="@{~/start_page/js/jquery.min.js}"></script>
+<script th:src="@{~/start_page/js/popper.min.js}"></script>
+<script th:src="@{~/start_page/js/bootstrap.min.js}"></script>
 <script th:src="@{~/start_page/js/jquery.easing.min.js}"></script>
-<!-- jQuery Easing for smooth scrolling between anchors -->
-<script th:src="@{~/start_page/js/swiper.min.js}"></script> <!-- Swiper for image and text sliders -->
-<script th:src="@{~/start_page/js/jquery.magnific-popup.js}"></script> <!-- Magnific Popup for lightboxes -->
+<script th:src="@{~/start_page/js/popup_ui.js}"></script>
+
+<script th:src="@{~/start_page/js/swiper.min.js}"></script>
+<script th:src="@{~/start_page/js/jquery.magnific-popup.js}"></script>
 <script th:src="@{~/start_page/js/validator.min.js}"></script>
-<!-- Validator.js - Bootstrap plugin that validates forms -->
-<script th:src="@{~/start_page/js/scripts.js}"></script> <!-- Custom scripts -->
+<script th:src="@{~/start_page/js/popup_jquery-1.7.1.min.js}"></script>
+
+<script th:src="@{~/start_page/js/scripts.js}"></script>
 </body>
 </html>
