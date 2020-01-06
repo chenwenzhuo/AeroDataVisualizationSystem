@@ -1577,7 +1577,7 @@ a:hover.back-to-top {
 
 .ex-2-header .form-container {
     max-width: 26rem;
-    margin-right: auto;
+    margin-right: 0;
     margin-left: auto;
     padding: 2.25rem 1.25rem 1.25rem 1.25rem;
     border-radius: 0.5rem;
