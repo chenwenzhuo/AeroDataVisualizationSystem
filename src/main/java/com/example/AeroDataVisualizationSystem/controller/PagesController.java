@@ -14,20 +14,21 @@ import java.io.*;
 @Controller
 @RequestMapping(path = "/aero")
 public class PagesController {
-    private String path;
+    private String path;//用于保存文件上传路径，在显示图片时使用
 
     @RequestMapping(path = "/startpage")
     public ModelAndView gotoStartPage() {
-        return new ModelAndView("start_page");
+        return new ModelAndView("start_page");//返回主页
     }
 
-    @RequestMapping(path = "/receivestatisticfile")
-    public ModelAndView receiveStatisticFile(
-            @RequestParam("statisticFile") MultipartFile statisticFile, HttpServletRequest request) {
+    @RequestMapping(path = "/receive_statistic_file")
+    public ModelAndView receiveStatisticFile(@RequestParam("statisticFile") MultipartFile statisticFile,
+                                             String dataSource, String pythonDir, HttpServletRequest request) {
         //上传文件路径
         String uploadPath = request.getServletContext().getRealPath("");
         //文件名
         String fileName = statisticFile.getOriginalFilename();
+
         System.out.println("File upload path: " + uploadPath);
         try {
             if (!statisticFile.isEmpty()) {
@@ -45,52 +46,42 @@ public class PagesController {
         }
         path = uploadPath;
 
-        ModelAndView modelAndView = new ModelAndView("select_img_type");
+        //根据数据的类型，跳转到不同页面
+        ModelAndView modelAndView = new ModelAndView();
+        switch (dataSource) {
+            case "Burgers":
+                modelAndView.setViewName("burgers_select_img_type");
+                break;
+            case "NS":
+                modelAndView.setViewName("ns_select_img_type");
+                break;
+            case "M6":
+                modelAndView.setViewName("m6_relation_select_cols");
+                break;
+        }
+        //传参
         modelAndView.addObject("uploadPath", uploadPath);
         modelAndView.addObject("fileName", fileName);
+        modelAndView.addObject("pythonDir", pythonDir);
         return modelAndView;
     }
 
-    @RequestMapping(path = "/confirmimgtype")
-    public ModelAndView confirmImgType(String imgType, String pythonDir, String uploadPath, String fileName) {
-        switch (imgType) {
-            case "relation_plot": {
-                ModelAndView modelAndView = new ModelAndView("relation_plot_select_cols");
-                modelAndView.addObject("pythonDir", pythonDir);
-                modelAndView.addObject("uploadPath", uploadPath);
-                modelAndView.addObject("fileName", fileName);
-                return modelAndView;
-            }
-            case "heat_map": {
-                ModelAndView modelAndView = new ModelAndView("heat_map_select_cols");
-                modelAndView.addObject("pythonDir", pythonDir);
-                modelAndView.addObject("uploadPath", uploadPath);
-                modelAndView.addObject("fileName", fileName);
-                return modelAndView;
-            }
-            case "stream_plot": {
-                ModelAndView modelAndView = new ModelAndView("stream_plot_select_cols");
-                modelAndView.addObject("pythonDir", pythonDir);
-                modelAndView.addObject("uploadPath", uploadPath);
-                modelAndView.addObject("fileName", fileName);
-                return modelAndView;
-            }
-            default: {
-                ModelAndView modelAndView = new ModelAndView("quiver_plot_select_cols");
-                modelAndView.addObject("pythonDir", pythonDir);
-                modelAndView.addObject("uploadPath", uploadPath);
-                modelAndView.addObject("fileName", fileName);
-                return modelAndView;
-            }
+    @RequestMapping(path = "/draw_burgers")
+    public ModelAndView drawBurgersFigure(String imgType, String pythonDir, String uploadPath, String fileName) {
+        ModelAndView modelAndView = new ModelAndView();
+        String pyFile;
+        //根据所需图像的类型，使用不同的python文件，并设置要跳转的页面
+        if (imgType.equals("relation")) {
+            pyFile = pythonDir + "\\relation_burg.py";
+            modelAndView.setViewName("burgers_display_relation");
+        } else {
+            pyFile = pythonDir + "\\heat_burg.py";
+            modelAndView.setViewName("burgers_display_heat");
         }
-    }
 
-    @RequestMapping(path = "/drawrelationplot")
-    public ModelAndView drawRelationPlot(String uploadPath, String fileName,
-                                         String pythonDir, String col1, String col2) {
         try {
-            String relationPlotPy = pythonDir + "\\relation_plot.py";
-            String[] pyArgs = new String[]{"python", relationPlotPy, uploadPath, fileName, col1, col2};
+            String[] pyArgs = new String[]{"python", pyFile, uploadPath, fileName};
+
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -103,16 +94,13 @@ public class PagesController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        ModelAndView modelAndView = new ModelAndView("relation_plot_display");
-        modelAndView.addObject("filePath", uploadPath + "/" + fileName);
         return modelAndView;
     }
 
-    @RequestMapping(path = "/displayrelationplot", produces = MediaType.IMAGE_PNG_VALUE)
+    @RequestMapping(path = "/display_burgers_relation", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public byte[] displayRelationPlot() throws IOException {
-        File imgFile = new File(path + "\\relation_plot.png");
+    public byte[] displayBurgersRelation() throws IOException {
+        File imgFile = new File(path + "relation_burg.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
@@ -120,12 +108,100 @@ public class PagesController {
         return bytes;
     }
 
-    @RequestMapping(path = "/drawheatmap")
-    public ModelAndView drawHeatMap(String uploadPath, String fileName,
-                                    String pythonDir, String col1, String col2, String col3) {
+    @RequestMapping(path = "/display_burgers_heat", produces = MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public byte[] displayBurgersHeat() throws IOException {
+        File imgFile = new File(path + "heat_burg.png");
+        InputStream inputStream = new FileInputStream(imgFile);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        inputStream.close();
+        return bytes;
+    }
+
+    @RequestMapping(path = "/ns")
+    public ModelAndView nsFigure(String imgType, String pythonDir, String uploadPath, String fileName) {
+        //若要画折线图，跳转到下一个页面，输入数据列
+        if (imgType.equals("relation")) {
+            ModelAndView modelAndView = new ModelAndView("ns_relation_select_cols");
+            modelAndView.addObject("pythonDir", pythonDir);
+            modelAndView.addObject("uploadPath", uploadPath);
+            modelAndView.addObject("fileName", fileName);
+            return modelAndView;
+        }
+
+        //若要画热力图，跳转到下一个页面，输入数据列
+        if (imgType.equals("heat")) {
+            ModelAndView modelAndView = new ModelAndView("ns_heat_select_cols");
+            modelAndView.addObject("pythonDir", pythonDir);
+            modelAndView.addObject("uploadPath", uploadPath);
+            modelAndView.addObject("fileName", fileName);
+            return modelAndView;
+        }
+
+        //若要画流场图，无需额外参数，直接调用python作图
+        ModelAndView modelAndView = new ModelAndView("ns_display_stream");
+        String pyFile = pythonDir + "\\stream_ns.py";
+
         try {
-            String heatMapPy = pythonDir + "\\heat_map.py";
-            String[] pyArgs = new String[]{"python", heatMapPy, uploadPath, fileName, col1, col2, col3};
+            String[] pyArgs = new String[]{"python", pyFile, uploadPath, fileName};
+
+            Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(path = "/draw_ns_relation")
+    public ModelAndView drawNSRelation(String pythonDir, String uploadPath, String fileName, int col1, int col2) {
+        //取fileName的最后三个字符（文件后缀名）
+        int fileNameLen = fileName.length();
+        String suffix = fileName.substring(fileNameLen - 3, fileNameLen);
+
+        ModelAndView modelAndView = new ModelAndView();
+        String pyFile;
+        if (suffix.equals("csv")) {
+            pyFile = pythonDir + "\\relation_ns_csv.py";
+            modelAndView.setViewName("ns_display_csv_relation");
+        } else {
+            pyFile = pythonDir + "\\relation_ns_history_dat.py";
+            modelAndView.setViewName("ns_display_history_dat_relation");
+        }
+
+        try {
+            String[] pyArgs = new String[]{"python", pyFile, uploadPath, fileName,
+                    String.valueOf(col1), String.valueOf(col2)};
+
+            Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(path = "/draw_ns_heat")
+    public ModelAndView drawNSRHeat(String pythonDir, String uploadPath, String fileName, int title_col) {
+        String pyFile = pythonDir + "\\heat_ns.py";
+        try {
+            String[] pyArgs = new String[]{"python", pyFile, uploadPath, fileName, String.valueOf(title_col)};
+
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -139,13 +215,13 @@ public class PagesController {
             e.printStackTrace();
         }
 
-        return new ModelAndView("heat_map_display");
+        return new ModelAndView("ns_display_heat");
     }
 
-    @RequestMapping(path = "/displayheatmap", produces = MediaType.IMAGE_PNG_VALUE)
+    @RequestMapping(path = "/display_ns_csv_relation", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public byte[] displayHeatMap() throws IOException {
-        File imgFile = new File(path + "\\heat_map.png");
+    public byte[] displayNSCsvRelation() throws IOException {
+        File imgFile = new File(path + "relation_ns_csv.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
@@ -153,12 +229,46 @@ public class PagesController {
         return bytes;
     }
 
-    @RequestMapping(path = "/drawstreamplot")
-    public ModelAndView drawStreamPlot(String uploadPath, String fileName,
-                                       String pythonDir, String col1, String col2) {
+    @RequestMapping(path = "/display_ns_history_dat_relation", produces = MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public byte[] displayNSHistoryDatRelation() throws IOException {
+        File imgFile = new File(path + "relation_ns_history_dat.png");
+        InputStream inputStream = new FileInputStream(imgFile);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        inputStream.close();
+        return bytes;
+    }
+
+    @RequestMapping(path = "/display_ns_heat", produces = MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public byte[] displayNSHeat() throws IOException {
+        File imgFile = new File(path + "heat_ns.png");
+        InputStream inputStream = new FileInputStream(imgFile);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        inputStream.close();
+        return bytes;
+    }
+
+    @RequestMapping(path = "/display_ns_stream", produces = MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public byte[] displayNSStream() throws IOException {
+        File imgFile = new File(path + "stream_ns.png");
+        InputStream inputStream = new FileInputStream(imgFile);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        inputStream.close();
+        return bytes;
+    }
+
+    @RequestMapping(path = "/draw_m6_relation")
+    public ModelAndView drawM6Relation(String uploadPath, String fileName, String pythonDir, String col1, String col2) {
+        String pyFile = pythonDir + "\\relation_m6_his_dat.py";
         try {
-            String streamPlotPy = pythonDir + "\\stream_plot.py";
-            String[] pyArgs = new String[]{"python", streamPlotPy, uploadPath, fileName, col1, col2};
+            String[] pyArgs = new String[]{"python", pyFile, uploadPath, fileName,
+                    String.valueOf(col1), String.valueOf(col2)};
+
             Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
 
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -171,47 +281,13 @@ public class PagesController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new ModelAndView("stream_plot_display");
+        return new ModelAndView("m6_display_relation");
     }
 
-    @RequestMapping(path = "/displaystreamplot", produces = MediaType.IMAGE_PNG_VALUE)
+    @RequestMapping(path = "/display_m6_relation", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public byte[] displayStreamPlot() throws IOException {
-        File imgFile = new File(path + "\\stream_plot.png");
-        InputStream inputStream = new FileInputStream(imgFile);
-        byte[] bytes = new byte[inputStream.available()];
-        inputStream.read(bytes, 0, inputStream.available());
-        inputStream.close();
-        return bytes;
-    }
-
-    @RequestMapping(path = "/drawquiverplot")
-    public ModelAndView drawQuiverPlot(String uploadPath, String fileName,
-                                       String pythonDir, String col1, String col2) {
-        try {
-            String quiverPlotPy = pythonDir + "\\quiver_plot.py";
-            String[] pyArgs = new String[]{"python", quiverPlotPy, uploadPath, fileName, col1, col2};
-            Process proc = Runtime.getRuntime().exec(pyArgs);// 执行py文件
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ModelAndView("quiver_plot_display");
-    }
-
-    @RequestMapping(path = "/displayquiverplot", produces = MediaType.IMAGE_PNG_VALUE)
-    @ResponseBody
-    public byte[] displayQuiverPlot() throws IOException {
-        File imgFile = new File(path + "\\quiver_plot.png");
+    public byte[] displayM6Relation() throws IOException {
+        File imgFile = new File(path + "relation_m6_his_dat.png");
         InputStream inputStream = new FileInputStream(imgFile);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());

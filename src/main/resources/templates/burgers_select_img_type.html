@@ -17,6 +17,17 @@
     <link th:href="@{~/img_display/css/style.css}" rel="stylesheet">
 
     <style type="text/css">
+        .imgTypeSelectorCSS {
+            background: #fafdfe;
+            height: 28px;
+            width: 180px;
+            line-height: 28px;
+            border: 1px solid #9bc0dd;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+        }
+
         .imgDisplayDiv {
             width: 800px;
             height: 800px;
@@ -38,24 +49,6 @@
             display: inline;
         }
     </style>
-
-    <script type="text/javascript">
-        function confirmCol() {
-            let colInput1 = document.getElementById("dataColumnInput1");
-            let colInput2 = document.getElementById("dataColumnInput2");
-            let colInput3 = document.getElementById("dataColumnInput3");
-
-            let col1 = colInput1.value;
-            let col2 = colInput2.value;
-            let col3 = colInput3.value;
-
-            if ((col1 === col2) || (col1 === col3) || (col2 === col3)) {
-                alert("请输入不同的数据列！");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 
 <body>
@@ -82,27 +75,20 @@
             <ul class="nav" id="side-menu" style="margin-top: 40px;">
                 <li>
                     <div style="text-align: center;">
-                        <span style="color: white;font-size: 20px;">热力图</span>
+                        <span style="color: white;font-size: 20px;">Burgers方程</span>
                     </div>
                 </li>
                 <li>
-                    <form action="/aero/drawheatmap"
+                    <form action="/aero/draw_burgers"
                           style="margin-top: 50px;margin-left: 20px;margin-right: 20px;">
-                        <label style="color: white;font-size: 20px;">输入要使用的数据列</label><br/>
+                        <label style="color: white;font-size: 20px;font-weight: normal">选择所需图像类型</label><br/>
 
-                        <label>
-                            <input id="dataColumnInput1" name="col1" type="text" placeholder="第一列"/>
-                        </label>
-                        <br/><br/>
-
-                        <label>
-                            <input id="dataColumnInput2" name="col2" type="text" placeholder="第二列"/>
-                        </label>
-                        <br/><br/>
-
-                        <label>
-                            <input id="dataColumnInput3" name="col3" type="text" placeholder="第三列"/>
-                        </label>
+                        <label for="imgTypeSelector"></label>
+                        <select id="imgTypeSelector" class="imgTypeSelectorCSS" name="imgType">
+                            <option value="none" selected disabled hidden>请选择选项</option>
+                            <option value="relation">折线图</option>
+                            <option value="heat">热力图</option>
+                        </select>
                         <br/><br/>
 
                         <label>
@@ -117,7 +103,7 @@
 
                         <div class="center p-20">
                             <span class="hide-menu">
-                                <input type="submit" value="确定" onclick="return confirmCol()"
+                                <input type="submit" value="确定"
                                        class="btn btn-info btn-block btn-rounded waves-effect waves-light">
                             </span>
                         </div>
@@ -125,12 +111,6 @@
                 </li>
             </ul>
 
-            <!--<div class="center p-20">
-                <span class="hide-menu">
-                    <a href="relation_plot_display.html" onclick="return confirmCol()"
-                       class="btn btn-info btn-block btn-rounded waves-effect waves-light">确定</a>
-                </span>
-            </div>-->
             <div class="center p-20">
                     <span class="hide-menu">
                         <a href="/aero/startpage"
@@ -145,7 +125,7 @@
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="imgDisplayDiv">
-        <img th:src="@{~/images/defaultPic.jpg}" alt="default" style="width: 80%;height: 80%;" src="#"/>
+        <img th:src="@{~/images/defaultPic.jpg}" alt="default" style="width: 80%;height: 80%;"/>
     </div>
 </div>
 <!-- /#page-wrapper -->

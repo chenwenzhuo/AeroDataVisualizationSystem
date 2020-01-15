@@ -29,6 +29,10 @@
             margin-top: 25px;
         }
 
+        #links {
+            text-align: center;
+        }
+
         #links ul {
             border: 1px solid red;
             list-style-type: none;
@@ -39,21 +43,6 @@
         }
     </style>
 
-    <script type="text/javascript">
-        function confirmCol() {
-            let colInput1 = document.getElementById("dataColumnInput1");
-            let colInput2 = document.getElementById("dataColumnInput2");
-
-            let col1 = colInput1.value;
-            let col2 = colInput2.value;
-
-            if (col1 === col2) {
-                alert("请输入不同的数据列！");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 
 <body>
@@ -77,53 +66,7 @@
 
     <div class="navbar-default sidebar nicescroll" role="navigation">
         <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu" style="margin-top: 40px;">
-                <li>
-                    <div style="text-align: center;">
-                        <span style="color: white;font-size: 20px;">箭头图</span>
-                    </div>
-                </li>
-                <li>
-                    <form action="/aero/drawquiverplot"
-                          style="margin-top: 50px;margin-left: 20px;margin-right: 20px;">
-                        <label style="color: white;font-size: 20px;">输入要使用的数据列</label><br/>
 
-                        <label>
-                            <input id="dataColumnInput1" name="col1" type="text" placeholder="第一列"/>
-                        </label>
-                        <br/><br/>
-
-                        <label>
-                            <input id="dataColumnInput2" name="col2" type="text" placeholder="第二列"/>
-                        </label>
-                        <br/><br/>
-
-                        <label>
-                            <input type="text" name="pythonDir" th:value="${pythonDir}" th:hidden="hidden"/>
-                        </label>
-                        <label>
-                            <input type="text" th:value="${uploadPath}" th:hidden="hidden" name="uploadPath">
-                        </label>
-                        <label>
-                            <input type="text" th:value="${fileName}" th:hidden="hidden" name="fileName">
-                        </label>
-
-                        <div class="center p-20">
-                            <span class="hide-menu">
-                                <input type="submit" value="确定" onclick="return confirmCol()"
-                                       class="btn btn-info btn-block btn-rounded waves-effect waves-light">
-                            </span>
-                        </div>
-                    </form>
-                </li>
-            </ul>
-
-            <!--<div class="center p-20">
-                <span class="hide-menu">
-                    <a href="relation_plot_display.html" onclick="return confirmCol()"
-                       class="btn btn-info btn-block btn-rounded waves-effect waves-light">确定</a>
-                </span>
-            </div>-->
             <div class="center p-20">
                     <span class="hide-menu">
                         <a href="/aero/startpage"
@@ -138,7 +81,8 @@
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="imgDisplayDiv">
-        <img th:src="@{~/images/defaultPic.jpg}" alt="default" style="width: 80%;height: 80%;"/>
+        <img th:src="@{http://localhost:8080/aero/display_m6_relation}" alt="relation_m6"
+             style="width: 80%;height: 80%;" src="#"/>
     </div>
 </div>
 <!-- /#page-wrapper -->

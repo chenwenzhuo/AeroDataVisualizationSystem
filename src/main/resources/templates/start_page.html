@@ -28,6 +28,30 @@
             font-weight: bold;
         }
 
+        .dataTypeSelectorCSS {
+            padding: 10px 30px;
+            background: #5f4dee;
+            color: #FFF;
+            border: none;
+            border-radius: 23px;
+            height: 50px;
+            width: 360px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .pythonDirInputCSS {
+            padding: 10px 30px;
+            background: #5f4dee;
+            color: #FFF;
+            border: none;
+            border-radius: 23px;
+            height: 50px;
+            width: 360px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
         .aboutUs {
             margin-right: 100px;
             font-family: "Microsoft YaHei UI", serif;
@@ -85,7 +109,7 @@
 </div>
 <div class="alert"
      onclick="popup.alert('2019 &copy; 气动数据可视化系统&nbsp;v1.0',
-     '地址：成都市高新区（西区）西源大道2006号&nbsp;清水河校区主楼b1-304、b1-305<br/>邮编：611731');">
+     '电子科技大学软件工程研究中心<br/>地址：成都市高新区（西区）西源大道2006号&nbsp;清水河校区主楼b1-304、b1-305<br/>邮编：611731');">
     <span class="aboutUs">关于我们</span>
 </div>
 
@@ -108,13 +132,34 @@
                 <!-- Sign Up Form -->
                 <div class="form-container" style="margin-top: 80px">
 
-                    <form action="/aero/receivestatisticfile" method="post" enctype="multipart/form-data">
+                    <form action="/aero/receive_statistic_file" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="chooseFileBtn" id="chooseFileBtnLabel"
                                    class="choose_file_btn_css">点击以选择数据文件</label>
                             <input type="file" id="chooseFileBtn" name="statisticFile"
                                    onchange="onFileSelected()" style="display: none" required/>
                         </div>
+
+                        <div class="form-group">
+                            <label>
+                                <select id="dataSourceSelector" name="dataSource" class="dataTypeSelectorCSS"
+                                        style="padding-left: 120px;padding-right: 120px" required>
+                                    <option value="none" selected disabled hidden>选择数据来源</option>
+                                    <option value="Burgers">Burgers方程</option>
+                                    <option value="NS">NS方程</option>
+                                    <option value="M6">M6机翼</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="pythonDirInputCSS">
+                                <label for="pythonDirInput"></label>
+                                <input type="text" id="pythonDirInput" name="pythonDir"
+                                       placeholder="输入Python作图模块路径" style="border: #FFFFFF;width: 260px" required/>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label style="width: 100%">
                                 <button type="submit" class="form-control-submit-button">确定</button>
